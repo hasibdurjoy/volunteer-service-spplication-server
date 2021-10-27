@@ -42,12 +42,12 @@ async function run() {
             res.send(service);
         })
 
-        app.get('/services/:name', async (req, res) => {
-            const name = req.params.name;
-            const query = { name: name };
+        /* app.get('/services/:key', async (req, res) => {
+            const key = req.params.key;
+            const query = { key: key };
             const service = await serviceCollection.findOne(query);
             res.send(service);
-        })
+        }) */
 
         app.get('/volunteers/:email', async (req, res) => {
             const email = req.params.email;
@@ -62,7 +62,15 @@ async function run() {
             const order = req.body;
             const result = await volunteerCollection.insertOne(order)
             res.json(result);
-        })
+        });
+
+        // DELETE API
+        app.delete('/volunteers/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await volunteerCollection.deleteOne(query);
+            res.json(result);
+        });
     }
     finally {
         // await client.close();
