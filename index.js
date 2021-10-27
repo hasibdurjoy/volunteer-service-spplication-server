@@ -47,7 +47,6 @@ async function run() {
             const email = req.params.email;
             const query = { email: email };
             const service = await volunteerCollection.findOne(query);
-            // console.log('load user with id: ', id);
             res.send(service);
         })
 
