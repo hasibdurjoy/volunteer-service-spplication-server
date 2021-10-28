@@ -29,32 +29,25 @@ async function run() {
             res.send(services);
         });
 
+        app.get('/services/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const service = await serviceCollection.findOne(query);
+            res.send(service);
+        });
+
         app.get('/volunteers', async (req, res) => {
             const cursor = volunteerCollection.find({});
             const volunteers = await cursor.toArray();
             res.send(volunteers);
         });
 
-        app.get('/services/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const service = await serviceCollection.findOne(query);
-            res.send(service);
-        })
-
-        /* app.get('/services/:key', async (req, res) => {
-            const key = req.params.key;
-            const query = { key: key };
-            const service = await serviceCollection.findOne(query);
-            res.send(service);
-        }) */
-
-        app.get('/volunteers/:email', async (req, res) => {
-            const email = req.params.email;
-            const query = { email: email };
-            const service = await volunteerCollection.findOne(query);
-            res.send(service);
-        })
+        app.get('/volunteers/:uid', async (req, res) => {
+            const uid = [req.params.uid];
+            const query = { uid: { $in: uid } };
+            const volunteer = await volunteerCollection.find(query).toArray();
+            res.send(volunteer);
+        });
 
 
         //Add orders api
